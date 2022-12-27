@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, MetaData, Table, ForeignKey, Float, insert
 from database import engine, SessionLocal
-from models import PlaceOfKeeping, TypeOfPrices
-
+from models import PlaceOfKeeping, TypeOfPrices, Items
+from random import randint
 
 def CreateTables():
     metadata = MetaData()
@@ -46,4 +46,29 @@ def InnerTypes():
     session.commit()
 
 
-InnerTypes()
+def InnerPlaces():
+    session = SessionLocal()
+    for i in range(20):
+        query = insert(PlaceOfKeeping).values(
+            name='supermarket ' + str(i)
+        )
+        session.execute(query)
+    session.commit()
+
+
+def InnerItems():
+    session = SessionLocal()
+    for i in range(200):
+        rand = randint(1, 50)
+        query = insert(Items).values(
+            id = i,
+            name='item ' + str(i),
+            name_of_company='company ' + str(rand),
+            country_of_company='country ' + str(randint(1, 50)),
+            id_company = rand,
+            date_of_end=randint(1, 100),
+            inner_price=randint(100, 2000) / 2
+        )
+        session.execute(query)
+    session.commit()
+
