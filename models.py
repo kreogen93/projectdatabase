@@ -1,4 +1,4 @@
-from sqlalchemy import TIMESTAMP, Column, Float, ForeignKey, Integer, String
+from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from database import Base, SessionLocal, engine
@@ -6,7 +6,6 @@ from database import Base, SessionLocal, engine
 
 class PlaceOfKeeping(Base):
     __tablename__ = "PlaceOfKeeping"
-    __table_args__ = {"schema": "cd"}
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -14,7 +13,6 @@ class PlaceOfKeeping(Base):
 
 class Items(Base):
     __tablename__ = "Items"
-    __table_args__ = {"schema": "cd"}
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -22,12 +20,11 @@ class Items(Base):
     country_of_company = Column(String)
     id_company = Column(Integer, primary_key=True)
     date_of_end = Column(Integer)
-    inner_price = Column('inner_price', Float)
+    inner_price = Column(Float)
 
 
 class TypeOfPrices(Base):
     __tablename__ = "TypeOfPrices"
-    __table_args__ = {"schema": "cd"}
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -35,15 +32,14 @@ class TypeOfPrices(Base):
 
 class PriceList(Base):
     __tablename__ = "PriceList"
-    __table_args__ = {"schema": "cd"}
 
     id = Column(Integer, primary_key=True)
     item_id = Column(
-        Integer, ForeignKey("cd.Items.id"), primary_key=True
+        Integer, ForeignKey("Items.id"), primary_key=True
     )
     item = relationship("Items")
     price_id = Column(
-        Integer, ForeignKey("cd.TypeOfPrices.id"), primary_key=True
+        Integer, ForeignKey("TypeOfPrices.id"), primary_key=True, name='type_price_id'
     )
     type = relationship("TypeOfPrices")
     price = Column(Float)

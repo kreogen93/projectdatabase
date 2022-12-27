@@ -1,5 +1,7 @@
-from sqlalchemy import Column, Integer, String, MetaData, Table, ForeignKey, Float
-from database import Base, engine
+from sqlalchemy import Column, Integer, String, MetaData, Table, ForeignKey, Float, insert
+from database import engine, SessionLocal
+from models import PlaceOfKeeping, TypeOfPrices
+
 
 def CreateTables():
     metadata = MetaData()
@@ -27,5 +29,21 @@ def CreateTables():
 
 
     metadata.create_all(engine)
+def InnerTypes():
+    session = SessionLocal()
+    query = insert(TypeOfPrices).values(
+        name='regular'
+    )
+    session.execute(query)
+    query = insert(TypeOfPrices).values(
+        name='markdown'
+    )
+    session.execute(query)
+    query = insert(TypeOfPrices).values(
+        name='action'
+    )
+    session.execute(query)
+    session.commit()
 
 
+InnerTypes()
