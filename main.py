@@ -5,10 +5,9 @@ from random import randint
 from maincompany import MainCompany
 from director import Director
 
+
 def CreateTables():
     metadata = MetaData()
-
-
     PlaceOfKeeping = Table('PlaceOfKeeping', metadata,
                            Column('id', Integer(), primary_key=True),
                            Column('name', String()))
@@ -29,9 +28,9 @@ def CreateTables():
                       Column('type_price_id', ForeignKey("TypeOfPrices.id"), primary_key=True),
                       Column('place_keeping_id', ForeignKey("PlaceOfKeeping.id"), primary_key=True),
                       Column('price', Float()))
-
-
     metadata.create_all(engine)
+
+
 def InnerTypes():
     session = SessionLocal()
     query = insert(TypeOfPrices).values(
@@ -75,12 +74,16 @@ def InnerItems():
         session.execute(query)
     session.commit()
 
+
 GK = MainCompany()
-d = Director(1)
-d.UpdatePrice()
-#session = SessionLocal()
-#query = delete(PriceList)
-#session.execute(query)
-#print(session.query(Items.inner_price, Items.date_of_end).filter(Items.id == 0).all())
-#session.query(PriceList.price, PriceList.type_price_id).filter(PriceList.item_id == 0).all()
+directors = []
+for i in range(1, 20):
+    GK.CreateSuperMarket(i)
+    director = Director(i)
+    directors.append(director)
+
+#Каждый день в течение месяца
+for i in range(30):
+    for director in directors:
+        director.UpdatePrice()
 

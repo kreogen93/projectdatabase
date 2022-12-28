@@ -48,6 +48,11 @@ class PriceList(Base):
     price = Column(Float)
 
 
+class WareHouse(Base):
+    item_id = Column(Integer, primary_key=True)
+    count = Column(Integer)
+
+
 if not __name__ == "__main__":
     session = SessionLocal()
     results = (

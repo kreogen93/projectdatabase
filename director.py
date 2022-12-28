@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String, MetaData, Table, ForeignKey, Float, insert, and_
 from database import engine, SessionLocal
 from models import PlaceOfKeeping, TypeOfPrices, Items, PriceList
-from random import randint
 
 
 class Director():
