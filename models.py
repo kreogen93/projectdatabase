@@ -38,10 +38,13 @@ class PriceList(Base):
         Integer, ForeignKey("Items.id"), primary_key=True
     )
     item = relationship("Items")
-    price_id = Column(
+    type_price_id = Column(
         Integer, ForeignKey("TypeOfPrices.id"), primary_key=True, name='type_price_id'
     )
     type = relationship("TypeOfPrices")
+    place_keeping_id = Column(
+        Integer, ForeignKey("PlaceOfKeeping.id"), primary_key=True
+    )
     price = Column(Float)
 
 

@@ -1,7 +1,9 @@
-from sqlalchemy import Column, Integer, String, MetaData, Table, ForeignKey, Float, insert
+from sqlalchemy import Column, Integer, String, MetaData, Table, ForeignKey, Float, insert, delete
 from database import engine, SessionLocal
-from models import PlaceOfKeeping, TypeOfPrices, Items
+from models import PlaceOfKeeping, TypeOfPrices, Items, PriceList
 from random import randint
+from maincompany import MainCompany
+from director import Director
 
 def CreateTables():
     metadata = MetaData()
@@ -25,6 +27,7 @@ def CreateTables():
                       Column('id', Integer(), primary_key=True),
                       Column('item_id', ForeignKey("Items.id"), primary_key=True),
                       Column('type_price_id', ForeignKey("TypeOfPrices.id"), primary_key=True),
+                      Column('place_keeping_id', ForeignKey("PlaceOfKeeping.id"), primary_key=True),
                       Column('price', Float()))
 
 
@@ -71,4 +74,13 @@ def InnerItems():
         )
         session.execute(query)
     session.commit()
+
+GK = MainCompany()
+d = Director(1)
+d.UpdatePrice()
+#session = SessionLocal()
+#query = delete(PriceList)
+#session.execute(query)
+#print(session.query(Items.inner_price, Items.date_of_end).filter(Items.id == 0).all())
+#session.query(PriceList.price, PriceList.type_price_id).filter(PriceList.item_id == 0).all()
 
