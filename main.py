@@ -1,3 +1,4 @@
+import pandas as pd
 from sqlalchemy import Column, Integer, String, MetaData, Table, ForeignKey, Float, insert, delete
 from database import engine, SessionLocal
 from models import PlaceOfKeeping, TypeOfPrices, Items, PriceList
@@ -78,12 +79,17 @@ def InnerItems():
 GK = MainCompany()
 directors = []
 for i in range(1, 20):
-    GK.CreateSuperMarket(i)
+    #GK.CreateSuperMarket(i)
     director = Director(i)
     directors.append(director)
 
 #Каждый день в течение месяца
 for i in range(30):
+    markup = GK.createexcel()
+    #markup = pd.read_excel('Markup.xlsx')
+    #markup = markup.to_dict()
     for director in directors:
         director.UpdatePrice()
+        director.gkmarkup(markup)
+
 
