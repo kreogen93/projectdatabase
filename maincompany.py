@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, MetaData, Table, ForeignKey, Float, insert
 from database import engine, SessionLocal
-from models import PlaceOfKeeping, TypeOfPrices, Items
 from random import randint
 import pandas as pd
 
@@ -14,15 +13,25 @@ class MainCompany():
 
 
         stop_list = Table(f'StopList {number_supermarket}', metadata,
-                          Column('item_id', Integer(), primary_key=True))
+                          Column('item_id', Integer(), primary_key=True),
+                          Column('cause', String()))
+
+
+        shop_hall = Table(f'ShopHall {number_supermarket}', metadata,
+                          Column('item_id', Integer(), primary_key=True),
+                          Column('count', Integer()))
         #Здесь нужно добавить сотрудников,поставщиков и тд
 
         metadata.create_all(engine)
         session = SessionLocal()
         for i in range(200):
+            count = randint(1, 30)
             query = insert(warehouse).values(
-                item_id=i,
-                count=randint(1, 30)
+                count=count
+            )
+            session.execute(query)
+            query = insert(shop_hall).values(
+                count=count - randint(1, count)
             )
             session.execute(query)
         session.commit()

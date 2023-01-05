@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-
-from database import Base, SessionLocal, engine
+from database import Base, SessionLocal
 
 
 class PlaceOfKeeping(Base):
@@ -30,6 +29,48 @@ class TypeOfPrices(Base):
     name = Column(String)
 
 
+class StopList0(Base):
+    __tablename__ = "StopList 0"
+
+    item_id = Column(Integer, primary_key=True)
+    cause = Column(String)
+
+
+class StopList1(Base):
+    __tablename__ = "StopList 1"
+
+    item_id = Column(Integer, primary_key=True)
+    cause = Column(String)
+
+
+class WareHouse0(Base):
+    __tablename__ = "Warehouse 0"
+
+    item_id = Column(Integer, primary_key=True)
+    count = Column(String)
+
+
+class WareHouse1(Base):
+    __tablename__ = "Warehouse 1"
+
+    item_id = Column(Integer, primary_key=True)
+    count = Column(String)
+
+
+class ShopHall0(Base):
+    __tablename__ = "ShopHall 0"
+
+    item_id = Column(Integer, primary_key=True)
+    count = Column(String)
+
+
+class ShopHall1(Base):
+    __tablename__ = "ShopHall 1"
+
+    item_id = Column(Integer, primary_key=True)
+    count = Column(String)
+
+
 class PriceList(Base):
     __tablename__ = "PriceList"
 
@@ -48,10 +89,4 @@ class PriceList(Base):
     price = Column(Float)
 
 
-if not __name__ == "__main__":
-    session = SessionLocal()
-    results = (
-        session.query(PriceList)
-        .all()
-    )
-    print(results)
+

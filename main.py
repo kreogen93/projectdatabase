@@ -1,16 +1,18 @@
 import pandas as pd
-from sqlalchemy import Column, Integer, String, MetaData, Table, ForeignKey, Float, insert, delete
+from sqlalchemy import Column, Integer, String, MetaData, Table, ForeignKey, Float, insert
 from database import engine, SessionLocal
-from models import PlaceOfKeeping, TypeOfPrices, Items, PriceList
+from models import PlaceOfKeeping, TypeOfPrices, Items, WareHouse0
 from random import randint
 from maincompany import MainCompany
 from director import Director
+from Buyer import Buyer
+from Itemmanager import Itemmanager
 
 
 def CreateTables():
     metadata = MetaData()
     PlaceOfKeeping = Table('PlaceOfKeeping', metadata,
-                           Column('id', Integer(), primary_key=True),
+                           Column('id', Integer(), primary_key=True, autoincrement=True),
                            Column('name', String()))
     Items = Table('Items', metadata,
                   Column('id', Integer(), primary_key=True),
@@ -51,7 +53,7 @@ def InnerTypes():
 
 def InnerPlaces():
     session = SessionLocal()
-    for i in range(20):
+    for i in range(2):
         query = insert(PlaceOfKeeping).values(
             name='supermarket ' + str(i)
         )
@@ -75,21 +77,30 @@ def InnerItems():
         session.execute(query)
     session.commit()
 
-
 GK = MainCompany()
 directors = []
-for i in range(1, 20):
+for i in range(2):
     #GK.CreateSuperMarket(i)
     director = Director(i)
     directors.append(director)
 
-#Каждый день в течение месяца
-for i in range(30):
+# #Каждый день в течение месяца
+for i in range(1):
     markup = GK.createexcel()
     #markup = pd.read_excel('Markup.xlsx')
     #markup = markup.to_dict()
     for director in directors:
         director.UpdatePrice()
         director.gkmarkup(markup)
+        director.updateday()
+    itemmanager0 = Itemmanager(0)
+    itemmanager0.check()
+    itemmanager1 = Itemmanager(1)
+    itemmanager1.check()
+    buyer0 = Buyer(0)
+    buyer0.buy()
+    buyer1 = Buyer(1)
+    buyer1.buy()
+
 
 
