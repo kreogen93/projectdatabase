@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-
-from database import Base, SessionLocal, engine
+from database import Base, SessionLocal
 
 
 class PlaceOfKeeping(Base):
@@ -30,6 +29,48 @@ class TypeOfPrices(Base):
     name = Column(String)
 
 
+class StopList0(Base):
+    __tablename__ = "StopList 0"
+
+    item_id = Column(Integer, primary_key=True)
+    cause = Column(String)
+
+
+class StopList1(Base):
+    __tablename__ = "StopList 1"
+
+    item_id = Column(Integer, primary_key=True)
+    cause = Column(String)
+
+
+class WareHouse0(Base):
+    __tablename__ = "Warehouse 0"
+
+    item_id = Column(Integer, primary_key=True)
+    count = Column(String)
+
+
+class WareHouse1(Base):
+    __tablename__ = "Warehouse 1"
+
+    item_id = Column(Integer, primary_key=True)
+    count = Column(String)
+
+
+class ShopHall0(Base):
+    __tablename__ = "ShopHall 0"
+
+    item_id = Column(Integer, primary_key=True)
+    count = Column(String)
+
+
+class ShopHall1(Base):
+    __tablename__ = "ShopHall 1"
+
+    item_id = Column(Integer, primary_key=True)
+    count = Column(String)
+
+
 class PriceList(Base):
     __tablename__ = "PriceList"
 
@@ -38,17 +79,14 @@ class PriceList(Base):
         Integer, ForeignKey("Items.id"), primary_key=True
     )
     item = relationship("Items")
-    price_id = Column(
+    type_price_id = Column(
         Integer, ForeignKey("TypeOfPrices.id"), primary_key=True, name='type_price_id'
     )
     type = relationship("TypeOfPrices")
+    place_keeping_id = Column(
+        Integer, ForeignKey("PlaceOfKeeping.id"), primary_key=True
+    )
     price = Column(Float)
 
 
-if not __name__ == "__main__":
-    session = SessionLocal()
-    results = (
-        session.query(PriceList)
-        .all()
-    )
-    print(results)
+
